@@ -20,6 +20,9 @@ Vagrant.configure(2) do |config|
     puppet.vm.network :private_network, ip: "10.0.0.10"
     puppet.hostmanager.aliases = %w(puppet)
     puppet.vm.provision "shell", inline: <<-SHELL
+	curl --remote-name --location https://yum.puppetlabs.com/RPM-GPG-KEY-puppet
+	gpg --keyid-format 0xLONG --with-fingerprint ./RPM-GPG-KEY-puppet
+	rpm --import RPM-GPG-KEY-puppet
       # sudo yum update -y
       sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
       sudo yum install puppetserver -y
